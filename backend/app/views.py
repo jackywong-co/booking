@@ -1,8 +1,17 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
+
+from app.models import Record
+from app.serializers import RecordSerializer
 
 
-# Create your views here.
+class RecordViewSet(viewsets.ModelViewSet):
+    pagination_class = None
+    queryset = Record.objects.all()
+    serializer_class = RecordSerializer
 
-def index(request):
-    return render(request, 'index.html')
+    def get_permissions(self):
+        if self.action == 'create':
+            return [AllowAny()]
+        else:
+            return super().get_permissions()

@@ -32,11 +32,7 @@ class Record(models.Model):
     address = models.CharField(max_length=200, blank=True, null=True)
     place_of_birth = models.CharField(max_length=200, blank=True, null=True)
     brand_of_vaccine = models.SmallIntegerField(choices=brand_of_vaccine, blank=True, null=True, default=0)
-    ref_code = models.CharField(max_length=200, blank=True, null=True)
-    status = models.SmallIntegerField(choices=status, blank=True, null=True, default=0)
+    ref_code = models.UUIDField(auto_created=True, default=uuid.uuid4, editable=False)
+    status = models.SmallIntegerField(choices=status, blank=True, null=True, default=1)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-
-
-class User(AbstractUser):
-    id = models.UUIDField(primary_key=True, auto_created=True, default=uuid.uuid4, editable=False)

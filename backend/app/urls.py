@@ -1,10 +1,10 @@
-from django.urls import path
-from django.contrib.auth import views as auth_views
+from django.urls import path, include
+from rest_framework.routers import SimpleRouter
+
 from app import views
 
+router = SimpleRouter()
+router.register(r'record', views.RecordViewSet, basename='record')
 urlpatterns = [
-    path('', views.index, name='home'),
-
-    path('login/', auth_views.LoginView.as_view(template_name='index.html'), name='login'),
-
+    path('', include(router.urls)),
 ]
