@@ -1,0 +1,20 @@
+# Django
+Django==4.1.5
+
+# Filter
+django-filter==22.1
+
+# Env
+django-environ==0.9.0
+
+# API
+djangorestframework==3.14.0
+
+# CROS
+django-cors-headers==3.13.0
+
+# JWT
+djangorestframework-simplejwt==5.2.2
+
+# Encrypt
+pycryptodome==3.16.0

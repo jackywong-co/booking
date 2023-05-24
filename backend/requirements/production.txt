@@ -1,0 +1,7 @@
+-r base.txt
+
+# Application Server
+gunicorn==20.1.0
+
+# Postgres
+psycopg2==2.9.1
