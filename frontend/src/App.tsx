@@ -24,7 +24,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="/">
-        Cat Shelter
+        Booking System
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -163,7 +163,7 @@ export default function App() {
               component="div"
               sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-              Cat Shelter
+              Booking System
             </Typography>
 
             <Box sx={{ flexGrow: 1 }} />

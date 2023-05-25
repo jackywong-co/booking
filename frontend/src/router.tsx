@@ -4,7 +4,7 @@ import App from './App';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
 import CatPage from './pages/CatPage';
-import CatCreatePage from './pages/CatCreatePage';
+import RecordCreatePage from './pages/RecordCreatePage';
 import HomePage from './pages/HomePage';
 import CatDetailPage from './pages/CatDetailPage';
 import CatEditPage from './pages/CatEditPage';
@@ -27,7 +27,7 @@ export const routes: RouteObject[] = [
         element: <RegistrationPage />
       },
       {
-        path: '/cat/',
+        path: '/record/',
         element: (
           <RequireAuth>
             <CatPage />
@@ -35,15 +35,15 @@ export const routes: RouteObject[] = [
         )
       },
       {
-        path: '/cat/create',
+        path: '/record/create',
         element: (
           <RequireAuth>
-            <CatCreatePage />
+            <RecordCreatePage />
           </RequireAuth>
         )
       },
       {
-        path: '/cat/edit/:id',
+        path: '/record/edit/:id',
         element: (
           <RequireAuth>
             <CatEditPage />
@@ -51,7 +51,7 @@ export const routes: RouteObject[] = [
         )
       },
       {
-        path: '/cat/:id',
+        path: '/record/:id',
         element: (
           <RequireAuth>
             <CatDetailPage />

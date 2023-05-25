@@ -1,28 +1,28 @@
 import { Box, Button, Container, CssBaseline, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useCat } from '../contexts/CatContext';
+import { useReocrd } from '../contexts/RecordContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import PhotoUploadWidget from '../components/PhotoUploadWidget';
 import { useEffect, useState } from 'react';
-import { Cat } from '../models/Cat';
+import { Record } from '../models/Record';
 
 export default function CatEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const cat = useCat();
+  const record = useReocrd();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [catItem, setCatItem] = useState<Cat>();
+  const [catItem, setCatItem] = useState<Record>();
 
   const initCat = async () => {
-    const result = await cat.getCat(id ?? '');
-    console.log('cat list', result);
+    const result = await record.getRecord(id ?? '');
+    console.log('record list', result);
     setCatItem(result);
   };
 
   const handlePhotoUpload = async (file: Blob) => {
-    const fileName = await cat.uploadCat(file);
+    const fileName = await record.uploadRecord(file);
     formik.setFieldValue('image', fileName);
   };
 
@@ -53,7 +53,7 @@ export default function CatEditPage() {
       image: Yup.string().max(99)
     }),
     onSubmit: async (values, { setSubmitting }) => {
-      const result = await cat.updateCat(values);
+      const result = await record.updateRecord(values);
       if (result === 'Success') {
         setSubmitting(false);
         navigate('/');
@@ -73,7 +73,7 @@ export default function CatEditPage() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Edit Cat
+          Edit Record
         </Typography>
       </Box>
       <Box>
@@ -82,7 +82,7 @@ export default function CatEditPage() {
             fullWidth
             InputLabelProps={{ shrink: true }}
             margin="normal"
-            label="Cat Name"
+            label="Record Name"
             id="name"
             name="name"
             onBlur={formik.handleBlur}
@@ -95,7 +95,7 @@ export default function CatEditPage() {
             fullWidth
             InputLabelProps={{ shrink: true }}
             margin="normal"
-            label="Cat Breed"
+            label="Record Breed"
             id="breed"
             name="breed"
             onBlur={formik.handleBlur}
@@ -108,7 +108,7 @@ export default function CatEditPage() {
             fullWidth
             InputLabelProps={{ shrink: true }}
             margin="normal"
-            label="Cat Age"
+            label="Record Age"
             id="age"
             name="age"
             onBlur={formik.handleBlur}
@@ -121,7 +121,7 @@ export default function CatEditPage() {
             fullWidth
             InputLabelProps={{ shrink: true }}
             margin="normal"
-            label="Cat Description"
+            label="Record Description"
             id="description"
             name="description"
             onBlur={formik.handleBlur}

@@ -1,26 +1,26 @@
 import { Box, Button, Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Cat } from '../models/Cat';
-import { useCat } from '../contexts/CatContext';
+import { Record } from '../models/Record';
+import { useReocrd } from '../contexts/RecordContext';
 import AlignItemsList from '../components/AlignItemsList';
 
 export default function CatDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  let cat = useCat();
+  let record = useReocrd();
 
-  const [catItem, setCatItem] = useState<Cat>();
+  const [catItem, setCatItem] = useState<Record>();
 
   const initCat = async () => {
-    const result = await cat.getCat(id ?? '');
-    console.log('cat list', result);
+    const result = await record.getRecord(id ?? '');
+    console.log('record list', result);
     setCatItem(result);
   };
 
   const handleCatDelete = async () => {
     if (catItem != null) {
-      const result = await cat.deleteCat(catItem);
+      const result = await record.deleteRecord(catItem);
       if (result === 'Success') {
         navigate('/');
       }
@@ -55,7 +55,7 @@ export default function CatDetailPage() {
                 color="primary"
                 fullWidth
                 sx={{ mb: 1 }}
-                onClick={() => navigate(`/cat/edit/${catItem && catItem.id}`)}
+                onClick={() => navigate(`/record/edit/${catItem && catItem.id}`)}
               >
                 Edit
               </Button>

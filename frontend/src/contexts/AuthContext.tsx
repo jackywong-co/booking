@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const register = async (registerInfo: UserRegisterForm) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/users/register`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -55,7 +55,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (loginInfo: UserLoginForm) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
+      console.log(loginInfo);
+      console.log(JSON.stringify(loginInfo));
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/login/`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'

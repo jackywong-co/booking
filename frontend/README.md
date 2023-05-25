@@ -10,10 +10,10 @@ npm run dev
 
 - [ ] Registration Page - Public
 - [ ] Login Page - Public
-- [ ] Cat Management Page - Worker
+- [ ] Record Management Page - Worker
 - [ ] Home Page - Public / Member / Worker
-- [ ] Cat Searching - Public / Member / Worker
-- [ ] Cat Filter - Public / Member / Worker
+- [ ] Record Searching - Public / Member / Worker
+- [ ] Record Filter - Public / Member / Worker
 
 
 ## Reference

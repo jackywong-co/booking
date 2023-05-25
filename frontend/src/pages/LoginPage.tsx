@@ -30,6 +30,7 @@ export default function LoginPage() {
       password: Yup.string().max(50).required()
     }),
     onSubmit: async (values, { setSubmitting }) => {
+      console.log(values);
       const result = await auth.login(values);
       if (result === 'Success') {
         setSubmitting(false);

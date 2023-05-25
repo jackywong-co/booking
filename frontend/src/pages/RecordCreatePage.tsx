@@ -1,45 +1,22 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Container,
-  Grid,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  TextField,
-  Typography,
-  Box,
-  Select
-} from '@mui/material';
-
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { useEffect, useState } from 'react';
-import { useReocrd } from '../contexts/RecordContext';
-import { Record } from '../models/Record';
-import SearchIcon from '@mui/icons-material/Search';
+import { Box, Button, Container, CssBaseline, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-function HomePage() {
+import { useReocrd } from '../contexts/RecordContext';
+import { useNavigate } from 'react-router-dom';
+// import PhotoUploadWidget from '../components/PhotoUploadWidget';
+import { useState } from 'react';
+
+export default function RecordCreatePage() {
   const navigate = useNavigate();
-  let auth = useAuth();
-  let record = useReocrd();
+  const record = useReocrd();
 
-  const [recordList, setRecordList] = useState<Record[]>([]);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const initRecordList = async () => {
-    const result = await record.listRecord();
-    console.log('record list', result);
-    setRecordList(result);
-  };
+  // const handlePhotoUpload = async (file: Blob) => {
+  //   const fileName = await record.uploadRecord(file);
+  //   formik.setFieldValue('image', fileName);
+  // };
 
-  useEffect(() => {
-    initRecordList();
-  }, []);
   const formik = useFormik({
     initialValues: {
       firstname_en: '',
@@ -77,8 +54,10 @@ function HomePage() {
       }
     }
   });
+
   return (
-    <Container sx={{ py: 8 }} maxWidth="xl">
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
@@ -153,11 +132,6 @@ function HomePage() {
             error={formik.touched.id_number && Boolean(formik.errors.id_number)}
             helperText={formik.touched.id_number && formik.errors.id_number}
           />
-          <Select labelId="demo-simple-select-label" id="demo-simple-select">
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
           <TextField
             fullWidth
             margin="normal"
@@ -252,86 +226,6 @@ function HomePage() {
           </Button>
         </Box>
       </Box>
-
-      {/* <Card sx={{ my: 2 }}>
-        <CardContent>
-          <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item xs={10}>
-              <Grid container direction="column">
-                <Grid item>
-                  <Grid container spacing={2}>
-                    <Grid item xs sx={{ minWidth: '150px' }}>
-                      <TextField
-                        variant="outlined"
-                        fullWidth
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <SearchIcon />
-                            </InputAdornment>
-                          )
-                        }}
-                        label="Search"
-                        placeholder="Search by Name"
-                        id="filterSearch"
-                        name="filterSearch"
-                      />
-                    </Grid>
-                    <Grid item xs sx={{ minWidth: '150px' }}>
-                      <TextField select fullWidth margin="dense" label="Breed" id="breed" name="breed">
-                        <MenuItem key="1" value="1">
-                          1
-                        </MenuItem>
-                      </TextField>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card> */}
-
-      {/* {auth.isLogin() && auth.getRole() === '2' && (
-        <Button variant="contained" onClick={() => navigate('/record/create')}>
-          Add Record
-        </Button>
-      )} */}
-
-      {/* {recordList.length > 0 && (
-        <Grid container sx={{ pt: 2 }} spacing={2}>
-          {recordList.map((record: any) => (
-            <Grid item key={record.id} xs={12} sm={6} md={2}>
-              <Card
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                onClick={() => navigate(`/record/${record.id}`)}
-              >
-                <CardMedia
-                  component="img"
-                  image={`${import.meta.env.VITE_API_URL}/uploads/${record.image}`}
-                  alt="random"
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {record.name}
-                  </Typography>
-                  <Typography>{record.description}</Typography>
-                </CardContent>
-                <CardActions>
-                  {auth.isLogin() && auth.getRole() === '1' && (
-                    <IconButton aria-label="add to favorites">
-                      <FavoriteIcon />
-                    </IconButton>
-                  )}
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      )}
-      {recordList.length == 0 && <Typography>No Record</Typography>} */}
     </Container>
   );
 }
-
-export default HomePage;
