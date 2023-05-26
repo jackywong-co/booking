@@ -112,8 +112,8 @@ export default function RecordCreatePage() {
             fullWidth
             margin="normal"
             label="Chinese Last Name"
-            id="firstname_zh"
-            name="firstname_zh"
+            id="lastname_zh"
+            name="lastname_zh"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.lastname_zh}
@@ -132,6 +132,11 @@ export default function RecordCreatePage() {
             error={formik.touched.id_number && Boolean(formik.errors.id_number)}
             helperText={formik.touched.id_number && formik.errors.id_number}
           />
+          {/* <Select labelId="demo-simple-select-label" id="demo-simple-select">
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select> */}
           <TextField
             fullWidth
             margin="normal"

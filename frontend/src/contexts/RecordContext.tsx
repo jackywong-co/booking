@@ -13,11 +13,17 @@ interface RecordContextType {
 export const RecordContext = createContext<RecordContextType>(null!);
 
 export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
-  const [selectedRecord, setSelectedCat] = useState<any>(null);
+  const [selectedRecord, setSelectedRecord] = useState<any>(null);
 
   const listRecord = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/`, {
+        method: 'get',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      });
 
       if (!res.ok) {
         throw new Error('List Record Error');
@@ -44,7 +50,7 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getRecord = async (catID: string) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${catID}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${catID}/`);
 
       if (!res.ok) {
         throw new Error('Get Record Error');
@@ -71,7 +77,7 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
 
   const createRecord = async (recordInfo: RecordCreateForm) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -104,7 +110,7 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
 
   const updateRecord = async (recordInfo: Record) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json'
@@ -138,7 +144,7 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
   const deleteRecord = async (recordInfo: Record) => {
     recordInfo.status = '0';
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json'

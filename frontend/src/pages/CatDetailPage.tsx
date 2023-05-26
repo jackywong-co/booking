@@ -35,17 +35,17 @@ export default function CatDetailPage() {
     <Container sx={{ py: 8 }} maxWidth="xl">
       <Card>
         <CardContent sx={{ display: 'flex', flexDirection: 'row' }}>
-          <CardMedia
+          {/* <CardMedia
             component="img"
             sx={{ width: 300 }}
             image={catItem && `${import.meta.env.VITE_API_URL}/uploads/${catItem.image}`}
-          />
+          /> */}
           <Box>
             <Typography component="div" variant="h1">
-              {catItem && catItem.name}
+              {catItem && catItem.firstname_en}
             </Typography>
             <Typography component="div" variant="body1" color="text.secondary">
-              {catItem && catItem.description}
+              {catItem && catItem.lastname_en}
             </Typography>
           </Box>
           <Box sx={{ ml: 'auto', display: 'flex', flexDirection: 'column' }}>
