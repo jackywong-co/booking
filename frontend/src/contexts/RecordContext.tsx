@@ -38,7 +38,7 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
           'Content-Length': res.headers.get('Content-Length')
         },
         length: res.headers.get('Content-Length'),
-        data: data
+        data: data.filter((n: Record) => n.status != '0')
       };
 
       return result.data;

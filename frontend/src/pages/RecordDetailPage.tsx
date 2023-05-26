@@ -19,7 +19,6 @@ export default function RecordDetailPage() {
 
   const handleRecordDelete = async () => {
     if (recordItem != null) {
-      console.log('aa');
       const result = await record.deleteRecord(recordItem);
       if (result === 'Success') {
         navigate('/');

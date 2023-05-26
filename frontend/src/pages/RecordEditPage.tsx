@@ -1,4 +1,16 @@
-import { Box, Button, Container, CssBaseline, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  TextField,
+  Typography,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  FormHelperText
+} from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useReocrd } from '../contexts/RecordContext';
@@ -17,14 +29,14 @@ export default function RecordEditPage() {
 
   const initRecord = async () => {
     const result = await record.getRecord(id ?? '');
-    console.log('record list', result);
+    console.log('record get', result);
     setRecordItem(result);
   };
 
-  const handlePhotoUpload = async (file: Blob) => {
-    const fileName = await record.uploadRecord(file);
-    formik.setFieldValue('image', fileName);
-  };
+  // const handlePhotoUpload = async (file: Blob) => {
+  //   const fileName = await record.uploadRecord(file);
+  //   formik.setFieldValue('image', fileName);
+  // };
 
   const handleResetPhoto = () => {
     formik.setFieldValue('image', '');
@@ -37,20 +49,33 @@ export default function RecordEditPage() {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      id: recordItem && recordItem.id,
-      name: recordItem && recordItem.name,
-      breed: recordItem && recordItem.breed,
-      age: recordItem && recordItem.age,
-      description: recordItem && recordItem.description,
-      image: recordItem && recordItem.image
+      // id: recordItem && recordItem.id,
+      firstname_en: recordItem && recordItem.firstname_en,
+      lastname_en: recordItem && recordItem.lastname_en,
+      firstname_zh: recordItem && recordItem.firstname_zh,
+      lastname_zh: recordItem && recordItem.lastname_zh,
+      id_number: recordItem && recordItem.id_number,
+      gender: recordItem && recordItem.gender,
+      date_of_birth: recordItem && recordItem.date_of_birth,
+      booking_date: recordItem && recordItem.booking_date,
+      booking_time: recordItem && recordItem.booking_time,
+      address: recordItem && recordItem.address,
+      place_of_birth: recordItem && recordItem.place_of_birth,
+      brand_of_vaccine: recordItem && recordItem.brand_of_vaccine
     },
     validationSchema: Yup.object({
-      id: Yup.string().max(99).required(),
-      name: Yup.string().max(99).required(),
-      breed: Yup.string().max(99).required(),
-      age: Yup.string().required(),
-      description: Yup.string().max(99).required(),
-      image: Yup.string().max(99)
+      firstname_en: Yup.string().max(99).required(),
+      lastname_en: Yup.string().max(99).required(),
+      firstname_zh: Yup.string().max(99).required(),
+      lastname_zh: Yup.string().max(99).required(),
+      id_number: Yup.string().max(99).required(),
+      gender: Yup.string().max(99).required(),
+      date_of_birth: Yup.string().max(99).required(),
+      booking_date: Yup.string().max(99).required(),
+      booking_time: Yup.string().max(99).required(),
+      address: Yup.string().max(99).required(),
+      place_of_birth: Yup.string().max(99).required(),
+      brand_of_vaccine: Yup.string().max(99).required()
     }),
     onSubmit: async (values, { setSubmitting }) => {
       const result = await record.updateRecord(values);
@@ -78,7 +103,7 @@ export default function RecordEditPage() {
       </Box>
       <Box>
         <Box component="form" autoComplete="off" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
+          {/* <TextField
             fullWidth
             InputLabelProps={{ shrink: true }}
             margin="normal"
@@ -137,7 +162,174 @@ export default function RecordEditPage() {
           )}
           <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResetPhoto}>
             Delete Photo
-          </Button>
+          </Button> */}
+          <TextField
+            fullWidth
+            margin="normal"
+            label="English First Name "
+            id="firstname_en"
+            name="firstname_en"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.firstname_en}
+            error={formik.touched.firstname_en && Boolean(formik.errors.firstname_en)}
+            helperText={formik.touched.firstname_en && formik.errors.firstname_en}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="English Last Name"
+            id="lastname_en"
+            name="lastname_en"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.lastname_en}
+            error={formik.touched.lastname_en && Boolean(formik.errors.lastname_en)}
+            helperText={formik.touched.lastname_en && formik.errors.lastname_en}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Chinese First Name"
+            id="firstname_zh"
+            name="firstname_zh"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.firstname_zh}
+            error={formik.touched.firstname_zh && Boolean(formik.errors.firstname_zh)}
+            helperText={formik.touched.firstname_zh && formik.errors.firstname_zh}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Chinese Last Name"
+            id="lastname_zh"
+            name="lastname_zh"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.lastname_zh}
+            error={formik.touched.lastname_zh && Boolean(formik.errors.lastname_zh)}
+            helperText={formik.touched.lastname_zh && formik.errors.lastname_zh}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="HKID"
+            id="id_number"
+            name="id_number"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.id_number}
+            error={formik.touched.id_number && Boolean(formik.errors.id_number)}
+            helperText={formik.touched.id_number && formik.errors.id_number}
+          />
+          <FormControl sx={{ mt: 1, minWidth: 400 }}>
+            <InputLabel id="demo-simple-select-helper-label">Gender</InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="gender"
+              name="gender"
+              value={formik.values.gender}
+              label="gender"
+              onChange={formik.handleChange}
+              required
+            >
+              <MenuItem value={0}>M</MenuItem>
+              <MenuItem value={1}>F</MenuItem>
+              <MenuItem value={2}>Other</MenuItem>
+            </Select>
+          </FormControl>
+
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Date of Birth"
+            id="date_of_birth"
+            name="date_of_birth"
+            type="date"
+            defaultValue="/0405/2017"
+            InputLabelProps={{
+              shrink: true
+            }}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.date_of_birth}
+            error={formik.touched.date_of_birth && Boolean(formik.errors.date_of_birth)}
+            helperText={formik.touched.date_of_birth && formik.errors.date_of_birth}
+          />
+
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Booking Date"
+            id="booking_date"
+            name="booking_date"
+            type="date"
+            InputLabelProps={{
+              shrink: true
+            }}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.booking_date}
+            error={formik.touched.booking_date && Boolean(formik.errors.booking_date)}
+            helperText={formik.touched.booking_date && formik.errors.booking_date}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Bookgin Time"
+            id="booking_time"
+            name="booking_time"
+            type="time"
+            InputLabelProps={{
+              shrink: true
+            }}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.booking_time}
+            error={formik.touched.booking_time && Boolean(formik.errors.booking_time)}
+            helperText={formik.touched.booking_time && formik.errors.booking_time}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="address"
+            id="address"
+            name="address"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.address}
+            error={formik.touched.address && Boolean(formik.errors.address)}
+            helperText={formik.touched.address && formik.errors.address}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Place of Birth"
+            id="place_of_birth"
+            name="place_of_birth"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.place_of_birth}
+            error={formik.touched.place_of_birth && Boolean(formik.errors.place_of_birth)}
+            helperText={formik.touched.place_of_birth && formik.errors.place_of_birth}
+          />
+
+          <FormControl sx={{ mt: 1, minWidth: 400 }}>
+            <InputLabel id="demo-simple-select-helper-label">Brand of Vaccine</InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="brand_of_vaccine"
+              name="brand_of_vaccine"
+              value={formik.values.brand_of_vaccine}
+              label="brand_of_vaccine"
+              onChange={formik.handleChange}
+              required
+            >
+              <MenuItem value={0}>Comirnaty</MenuItem>
+              <MenuItem value={1}>CoronaVac</MenuItem>
+            </Select>
+          </FormControl>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Submit
           </Button>

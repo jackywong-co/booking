@@ -24,7 +24,11 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/registration',
-        element: <RegistrationPage />
+        element: (
+          <RequireAuth>
+            <RegistrationPage />
+          </RequireAuth>
+        )
       },
       {
         path: '/record/',
