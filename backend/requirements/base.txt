@@ -18,3 +18,9 @@ djangorestframework-simplejwt==5.2.2
 
 # Encrypt
 pycryptodome==3.16.0
+
+# TOTP
+pyotp==2.7.0
+
+# HTTP Client
+requests==2.28.1
