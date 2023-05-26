@@ -13,12 +13,12 @@ export default function RecordEditPage() {
   const record = useReocrd();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [catItem, setCatItem] = useState<Record>();
+  const [recordItem, setRecordItem] = useState<Record>();
 
-  const initCat = async () => {
+  const initRecord = async () => {
     const result = await record.getRecord(id ?? '');
     console.log('record list', result);
-    setCatItem(result);
+    setRecordItem(result);
   };
 
   const handlePhotoUpload = async (file: Blob) => {
@@ -31,18 +31,18 @@ export default function RecordEditPage() {
   };
 
   useEffect(() => {
-    initCat();
+    initRecord();
   }, []);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      id: catItem && catItem.id,
-      name: catItem && catItem.name,
-      breed: catItem && catItem.breed,
-      age: catItem && catItem.age,
-      description: catItem && catItem.description,
-      image: catItem && catItem.image
+      id: recordItem && recordItem.id,
+      name: recordItem && recordItem.name,
+      breed: recordItem && recordItem.breed,
+      age: recordItem && recordItem.age,
+      description: recordItem && recordItem.description,
+      image: recordItem && recordItem.image
     },
     validationSchema: Yup.object({
       id: Yup.string().max(99).required(),

@@ -30,6 +30,37 @@ export default function RecordCreatePage() {
   //   formik.setFieldValue('image', fileName);
   // };
 
+  // function IsHKID(str: string) {
+  //   var strValidChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  //   if (str.length < 8) {
+  //     return false;
+  //   }
+  //   str = str.toUpperCase();
+  //   var hkidPat = /^([A-Z]{1,2})([0-9]{6})([A0-9])$/;
+  //   var matchArray = str.match(hkidPat);
+  //   if (matchArray == null) {
+  //     return false;
+  //   }
+  //   var charPart = matchArray[1];
+  //   var numPart = matchArray[2];
+  //   var checkDigit = matchArray[3];
+  //   var checkSum = 0;
+  //   if (charPart.length == 2) {
+  //     checkSum += 9 * (10 + strValidChars.indexOf(charPart.charAt(0)));
+  //     checkSum += 8 * (10 + strValidChars.indexOf(charPart.charAt(1)));
+  //   } else {
+  //     checkSum += 9 * 36;
+  //     checkSum += 8 * (10 + strValidChars.indexOf(charPart));
+  //   }
+
+  //   for (var i = 0, j = 7; i < numPart.length; i++, j--) {
+  //     checkSum += j * numPart.charAt(i);
+  //   }
+  //   var remaining = checkSum % 11;
+  //   var verify = remaining == 0 ? 0 : 11 - remaining;
+  //   return verify == checkDigit || (verify == 10 && checkDigit == 'A');
+  // }
+
   const formik = useFormik({
     initialValues: {
       firstname_en: '',
@@ -136,7 +167,7 @@ export default function RecordCreatePage() {
           <TextField
             fullWidth
             margin="normal"
-            label="id_number"
+            label="HKID"
             id="id_number"
             name="id_number"
             onBlur={formik.handleBlur}
@@ -145,31 +176,22 @@ export default function RecordCreatePage() {
             error={formik.touched.id_number && Boolean(formik.errors.id_number)}
             helperText={formik.touched.id_number && formik.errors.id_number}
           />
-
-          <TextField
-            fullWidth
-            margin="normal"
-            label="gender"
-            id="gender"
-            name="gender"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.gender}
-            error={formik.touched.gender && Boolean(formik.errors.gender)}
-            helperText={formik.touched.gender && formik.errors.gender}
-          />
-          {/* <TextField
-            id="date"
-            label="Birthday"
-            type="date"
-            defaultValue="2017-05-24"
-            // className={classes.textField}
-            InputLabelProps={{
-              shrink: true
-            }}
-          /> */}
-
-          <DatePicker label="Basic date picker" />
+          <FormControl sx={{ mt: 1, minWidth: 400 }}>
+            <InputLabel id="demo-simple-select-helper-label">Gender</InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="gender"
+              name="gender"
+              value={formik.values.gender}
+              label="gender"
+              onChange={formik.handleChange}
+              required
+            >
+              <MenuItem value={0}>M</MenuItem>
+              <MenuItem value={1}>F</MenuItem>
+              <MenuItem value={2}>Other</MenuItem>
+            </Select>
+          </FormControl>
 
           <TextField
             fullWidth
@@ -178,18 +200,27 @@ export default function RecordCreatePage() {
             id="date_of_birth"
             name="date_of_birth"
             type="date"
+            defaultValue="/0405/2017"
+            InputLabelProps={{
+              shrink: true
+            }}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.date_of_birth}
             error={formik.touched.date_of_birth && Boolean(formik.errors.date_of_birth)}
             helperText={formik.touched.date_of_birth && formik.errors.date_of_birth}
           />
+
           <TextField
             fullWidth
             margin="normal"
-            label="booking_date"
+            label="Booking Date"
             id="booking_date"
             name="booking_date"
+            type="date"
+            InputLabelProps={{
+              shrink: true
+            }}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.booking_date}
@@ -199,9 +230,13 @@ export default function RecordCreatePage() {
           <TextField
             fullWidth
             margin="normal"
-            label="booking_time"
+            label="Bookgin Time"
             id="booking_time"
             name="booking_time"
+            type="time"
+            InputLabelProps={{
+              shrink: true
+            }}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.booking_time}
@@ -223,7 +258,7 @@ export default function RecordCreatePage() {
           <TextField
             fullWidth
             margin="normal"
-            label="place_of_birth"
+            label="Place of Birth"
             id="place_of_birth"
             name="place_of_birth"
             onBlur={formik.handleBlur}
@@ -249,37 +284,6 @@ export default function RecordCreatePage() {
             </Select>
           </FormControl>
 
-          {/* <InputLabel id="demo-simple-select-label">brand_of_vaccine</InputLabel> */}
-          {/* <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={formik.values.brand_of_vaccine}
-            label="Age"
-            onChange={formik.handleChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select> */}
-
-          {/* <TextField
-            fullWidth
-            margin="normal"
-            label="brand_of_vaccine"
-            id="brand_of_vaccine"
-            name="brand_of_vaccine"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.brand_of_vaccine}
-            error={formik.touched.brand_of_vaccine && Boolean(formik.errors.brand_of_vaccine)}
-            helperText={formik.touched.brand_of_vaccine && formik.errors.brand_of_vaccine}
-          /> */}
-
-          {/* {formik.values.image == '' ? (
-            <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={isLoading} />
-          ) : (
-            <img src={`${import.meta.env.VITE_API_URL}/uploads/${formik.values.image}`} width="200" loading="lazy" />
-          )} */}
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Submit
           </Button>

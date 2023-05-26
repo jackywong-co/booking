@@ -50,7 +50,13 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getRecord = async (catID: string) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${catID}/`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${catID}/`, {
+        method: 'get',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      });
 
       if (!res.ok) {
         throw new Error('Get Record Error');
@@ -113,6 +119,7 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
         method: 'put',
         headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(recordInfo)
@@ -147,6 +154,7 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
         method: 'put',
         headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(recordInfo)

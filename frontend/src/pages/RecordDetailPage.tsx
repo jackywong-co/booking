@@ -10,17 +10,17 @@ export default function RecordDetailPage() {
   const navigate = useNavigate();
   let record = useReocrd();
 
-  const [catItem, setCatItem] = useState<Record>();
+  const [recordItem, setRecordItem] = useState<Record>();
 
-  const initCat = async () => {
+  const initRecord = async () => {
     const result = await record.getRecord(id ?? '');
-    console.log('record list', result);
-    setCatItem(result);
+    setRecordItem(result);
   };
 
-  const handleCatDelete = async () => {
-    if (catItem != null) {
-      const result = await record.deleteRecord(catItem);
+  const handleRecordDelete = async () => {
+    if (recordItem != null) {
+      console.log('aa');
+      const result = await record.deleteRecord(recordItem);
       if (result === 'Success') {
         navigate('/');
       }
@@ -28,7 +28,7 @@ export default function RecordDetailPage() {
   };
 
   useEffect(() => {
-    initCat();
+    initRecord();
   }, []);
 
   return (
@@ -38,14 +38,14 @@ export default function RecordDetailPage() {
           {/* <CardMedia
             component="img"
             sx={{ width: 300 }}
-            image={catItem && `${import.meta.env.VITE_API_URL}/uploads/${catItem.image}`}
+            image={recordItem && `${import.meta.env.VITE_API_URL}/uploads/${recordItem.image}`}
           /> */}
           <Box>
             <Typography component="div" variant="h1">
-              {catItem && catItem.firstname_en}
+              {recordItem && recordItem.firstname_en}
             </Typography>
             <Typography component="div" variant="body1" color="text.secondary">
-              {catItem && catItem.lastname_en}
+              {recordItem && recordItem.lastname_en}
             </Typography>
           </Box>
           <Box sx={{ ml: 'auto', display: 'flex', flexDirection: 'column' }}>
@@ -55,20 +55,27 @@ export default function RecordDetailPage() {
                 color="primary"
                 fullWidth
                 sx={{ mb: 1 }}
-                onClick={() => navigate(`/record/edit/${catItem && catItem.id}`)}
+                onClick={() => navigate(`/record/edit/${recordItem && recordItem.id}`)}
               >
                 Edit
               </Button>
-              <Button variant="contained" color="error" fullWidth sx={{ mb: 1 }} onClick={handleCatDelete}>
+              <Button variant="contained" color="error" fullWidth sx={{ mb: 1 }} onClick={handleRecordDelete}>
                 Delete
               </Button>
             </Box>
           </Box>
         </CardContent>
       </Card>
+
       <Card sx={{ my: 5 }}>
         <CardContent sx={{ display: 'flex', flexDirection: 'row' }}>
-          <AlignItemsList />
+          {/* <AlignItemsList /> */}
+          <Typography component="div" variant="h1">
+            {recordItem && recordItem.firstname_en}
+          </Typography>
+          <Typography component="div" variant="body1" color="text.secondary">
+            {recordItem && recordItem.lastname_en}
+          </Typography>
         </CardContent>
       </Card>
     </Container>
