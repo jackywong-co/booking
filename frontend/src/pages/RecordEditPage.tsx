@@ -11,67 +11,66 @@ import {
   FormControl,
   FormHelperText
 } from '@mui/material';
-
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useReocrd } from '../contexts/RecordContext';
-import { useNavigate } from 'react-router-dom';
-// import PhotoUploadWidget from '../components/PhotoUploadWidget';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import PhotoUploadWidget from '../components/PhotoUploadWidget';
+import { useEffect, useState } from 'react';
+import { Record } from '../models/Record';
 
-export default function RecordCreatePage() {
+export default function RecordEditPage() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const record = useReocrd();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [recordItem, setRecordItem] = useState<Record>();
 
-  // function IsHKID(str: string) {
-  //   var strValidChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  //   if (str.length < 8) {
-  //     return false;
-  //   }
-  //   str = str.toUpperCase();
-  //   var hkidPat = /^([A-Z]{1,2})([0-9]{6})([A0-9])$/;
-  //   var matchArray = str.match(hkidPat);
-  //   if (matchArray == null) {
-  //     return false;
-  //   }
-  //   var charPart = matchArray[1];
-  //   var numPart = matchArray[2];
-  //   var checkDigit = matchArray[3];
-  //   var checkSum = 0;
-  //   if (charPart.length == 2) {
-  //     checkSum += 9 * (10 + strValidChars.indexOf(charPart.charAt(0)));
-  //     checkSum += 8 * (10 + strValidChars.indexOf(charPart.charAt(1)));
-  //   } else {
-  //     checkSum += 9 * 36;
-  //     checkSum += 8 * (10 + strValidChars.indexOf(charPart));
-  //   }
+  const initRecord = async () => {
+    const result = await record.getRecord(id ?? '');
+    console.log('record get', result);
+    setRecordItem(result);
+  };
 
-  //   for (var i = 0, j = 7; i < numPart.length; i++, j--) {
-  //     checkSum += j * numPart.charAt(i);
-  //   }
-  //   var remaining = checkSum % 11;
-  //   var verify = remaining == 0 ? 0 : 11 - remaining;
-  //   return verify == checkDigit || (verify == 10 && checkDigit == 'A');
-  // }
+  // const handlePhotoUpload = async (file: Blob) => {
+  //   const fileName = await record.uploadRecord(file);
+  //   formik.setFieldValue('image', fileName);
+  // };
+
+  // const handleResetPhoto = () => {
+  //   formik.setFieldValue('image', '');
+  // };
+
+  useEffect(() => {
+    initRecord();
+  }, []);
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      firstname_en: '',
-      lastname_en: '',
-      firstname_zh: '',
-      lastname_zh: '',
-      id_number: '',
-      gender: '',
-      date_of_birth: '',
-      booking_date: '',
-      booking_time: '',
-      address: '',
-      place_of_birth: '',
-      brand_of_vaccine: ''
+      id: recordItem && recordItem.id,
+      ref_code: recordItem && recordItem.ref_code,
+      firstname_en: recordItem && recordItem.firstname_en,
+      lastname_en: recordItem && recordItem.lastname_en,
+      firstname_zh: recordItem && recordItem.firstname_zh,
+      lastname_zh: recordItem && recordItem.lastname_zh,
+      id_number: recordItem && recordItem.id_number,
+      gender: recordItem && recordItem.gender,
+      date_of_birth: recordItem && recordItem.date_of_birth,
+      booking_date: recordItem && recordItem.booking_date,
+      booking_time: recordItem && recordItem.booking_time,
+      address: recordItem && recordItem.address,
+      place_of_birth: recordItem && recordItem.place_of_birth,
+      brand_of_vaccine: recordItem && recordItem.brand_of_vaccine,
+      verify_identity: recordItem && recordItem.verify_identity,
+      status: recordItem && recordItem.status,
+      created: recordItem && recordItem.created,
+      modified: recordItem && recordItem.modified
     },
     validationSchema: Yup.object({
+      id: Yup.string().max(99).required(),
+      ref_code: Yup.string().max(99).required(),
       firstname_en: Yup.string().max(99).required(),
       lastname_en: Yup.string().max(99).required(),
       firstname_zh: Yup.string().max(99).required(),
@@ -83,10 +82,15 @@ export default function RecordCreatePage() {
       booking_time: Yup.string().max(99).required(),
       address: Yup.string().max(99).required(),
       place_of_birth: Yup.string().max(99).required(),
-      brand_of_vaccine: Yup.string().max(99).required()
+      brand_of_vaccine: Yup.string().max(99).required(),
+      verify_identity: Yup.boolean().required(),
+      status: Yup.string().max(99).required(),
+      created: Yup.string().max(99).required(),
+      modified: Yup.string().max(99).required()
     }),
     onSubmit: async (values, { setSubmitting }) => {
-      const result = await record.createRecord(values);
+      // TODO
+      const result = await record.updateRecord(values);
       if (result === 'Success') {
         setSubmitting(false);
         navigate('/');
@@ -106,7 +110,7 @@ export default function RecordCreatePage() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Create Record
+          Edit Record
         </Typography>
       </Box>
       <Box>
@@ -278,7 +282,6 @@ export default function RecordCreatePage() {
               <MenuItem value={1}>CoronaVac</MenuItem>
             </Select>
           </FormControl>
-
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Submit
           </Button>

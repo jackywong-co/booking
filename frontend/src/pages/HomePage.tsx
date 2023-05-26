@@ -155,7 +155,7 @@ function HomePage() {
           ))}
         </Grid>
       )}
-      {recordList.length == 0 && <Typography>No Record</Typography>}
+      {auth.isLogin() && recordList.length == 0 && <Typography>No Record</Typography>}
     </Container>
   );
 }
