@@ -185,7 +185,11 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const verifyRecord = async (recordInfo: Record) => {
-    recordInfo.verify_identity = true;
+    if (recordInfo.verify_identity == true) {
+      recordInfo.verify_identity = false;
+    } else {
+      recordInfo.verify_identity = true;
+    }
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
         method: 'put',
