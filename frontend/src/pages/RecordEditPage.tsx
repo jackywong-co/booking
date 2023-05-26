@@ -7,7 +7,7 @@ import PhotoUploadWidget from '../components/PhotoUploadWidget';
 import { useEffect, useState } from 'react';
 import { Record } from '../models/Record';
 
-export default function CatEditPage() {
+export default function RecordEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const record = useReocrd();

@@ -3,11 +3,11 @@ import { RequireAuth } from './contexts/AuthContext';
 import App from './App';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
-import CatPage from './pages/CatPage';
+import RecordPage from './pages/RecordPage';
 import RecordCreatePage from './pages/RecordCreatePage';
 import HomePage from './pages/HomePage';
-import CatDetailPage from './pages/CatDetailPage';
-import CatEditPage from './pages/CatEditPage';
+import RecordDetailPage from './pages/RecordDetailPage';
+import RecordEditPage from './pages/RecordEditPage';
 
 export const routes: RouteObject[] = [
   {
@@ -30,7 +30,7 @@ export const routes: RouteObject[] = [
         path: '/record/',
         element: (
           <RequireAuth>
-            <CatPage />
+            <RecordPage />
           </RequireAuth>
         )
       },
@@ -46,7 +46,7 @@ export const routes: RouteObject[] = [
         path: '/record/edit/:id',
         element: (
           <RequireAuth>
-            <CatEditPage />
+            <RecordEditPage />
           </RequireAuth>
         )
       },
@@ -54,7 +54,7 @@ export const routes: RouteObject[] = [
         path: '/record/:id',
         element: (
           <RequireAuth>
-            <CatDetailPage />
+            <RecordDetailPage />
           </RequireAuth>
         )
       }

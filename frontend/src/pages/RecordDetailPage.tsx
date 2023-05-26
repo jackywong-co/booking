@@ -5,7 +5,7 @@ import { Record } from '../models/Record';
 import { useReocrd } from '../contexts/RecordContext';
 import AlignItemsList from '../components/AlignItemsList';
 
-export default function CatDetailPage() {
+export default function RecordDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   let record = useReocrd();

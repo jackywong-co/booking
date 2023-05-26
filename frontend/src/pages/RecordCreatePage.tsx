@@ -1,4 +1,16 @@
-import { Box, Button, Container, CssBaseline, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  TextField,
+  Typography,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  FormHelperText
+} from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useReocrd } from '../contexts/RecordContext';
@@ -209,7 +221,36 @@ export default function RecordCreatePage() {
             error={formik.touched.place_of_birth && Boolean(formik.errors.place_of_birth)}
             helperText={formik.touched.place_of_birth && formik.errors.place_of_birth}
           />
-          <TextField
+
+          <FormControl sx={{ mt: 1, minWidth: 400 }}>
+            <InputLabel id="demo-simple-select-helper-label">Brand of Vaccine</InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="brand_of_vaccine"
+              value={formik.values.brand_of_vaccine}
+              label="brand_of_vaccine"
+              onChange={formik.handleChange}
+              required
+            >
+              <MenuItem value={0}>Ten</MenuItem>
+              <MenuItem value={1}>Twenty</MenuItem>
+            </Select>
+          </FormControl>
+
+          {/* <InputLabel id="demo-simple-select-label">brand_of_vaccine</InputLabel> */}
+          {/* <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={formik.values.brand_of_vaccine}
+            label="Age"
+            onChange={formik.handleChange}
+          >
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select> */}
+
+          {/* <TextField
             fullWidth
             margin="normal"
             label="brand_of_vaccine"
@@ -220,7 +261,8 @@ export default function RecordCreatePage() {
             value={formik.values.brand_of_vaccine}
             error={formik.touched.brand_of_vaccine && Boolean(formik.errors.brand_of_vaccine)}
             helperText={formik.touched.brand_of_vaccine && formik.errors.brand_of_vaccine}
-          />
+          /> */}
+
           {/* {formik.values.image == '' ? (
             <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={isLoading} />
           ) : (

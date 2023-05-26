@@ -3,8 +3,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function CatPage() {
-  
+export default function RecordPage() {
   // async function getAllData() {
   //   try {
   //     const res = await fetch(`${baseURL}/tutorials`);
@@ -31,7 +30,6 @@ export default function CatPage() {
   //     setGetResult(err.message);
   //   }
   // }
-
 
   return (
     <Container sx={{ py: 8 }} maxWidth="md">
