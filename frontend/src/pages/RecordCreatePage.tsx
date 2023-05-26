@@ -25,11 +25,6 @@ export default function RecordCreatePage() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // const handlePhotoUpload = async (file: Blob) => {
-  //   const fileName = await record.uploadRecord(file);
-  //   formik.setFieldValue('image', fileName);
-  // };
-
   // function IsHKID(str: string) {
   //   var strValidChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   //   if (str.length < 8) {

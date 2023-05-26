@@ -8,6 +8,7 @@ interface RecordContextType {
   createRecord: (recordInfo: RecordCreateForm) => Promise<string>;
   updateRecord: (recordInfo: Record) => Promise<string>;
   deleteRecord: (recordInfo: Record) => Promise<string>;
+  verifyRecord: (recordInfo: Record) => Promise<string>;
 }
 
 export const RecordContext = createContext<RecordContextType>(null!);
@@ -183,8 +184,45 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const verifyRecord = async (recordInfo: Record) => {
+    recordInfo.verify_identity = true;
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
+        method: 'put',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(recordInfo)
+      });
+
+      if (!res.ok) {
+        throw new Error('Verify Record Error');
+      }
+
+      const data = await res.json();
+
+      const result = {
+        status: res.status + '-' + res.statusText,
+        headers: {
+          'Content-Type': res.headers.get('Content-Type'),
+          'Content-Length': res.headers.get('Content-Length')
+        },
+        data: data
+      };
+
+      console.log('Verify Record:', result.data);
+      return 'Success';
+    } catch (err: any) {
+      console.log('Verify Record error:', err.message);
+      return 'Fail';
+    }
+  };
+
   return (
-    <RecordContext.Provider value={{ selectedRecord, listRecord, getRecord, createRecord, updateRecord, deleteRecord }}>
+    <RecordContext.Provider
+      value={{ selectedRecord, listRecord, getRecord, createRecord, updateRecord, deleteRecord, verifyRecord }}
+    >
       {children}
     </RecordContext.Provider>
   );

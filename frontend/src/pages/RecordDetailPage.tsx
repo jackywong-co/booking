@@ -25,9 +25,19 @@ export default function RecordDetailPage() {
       }
     }
   };
+  // TODO
+  const handleRecordVerify = async () => {
+    if (recordItem != null) {
+      const result = await record.verifyRecord(recordItem);
+      if (result === 'Success') {
+        // navigate('/');
+      }
+    }
+  };
 
   useEffect(() => {
     initRecord();
+    handleRecordVerify();
   }, []);
 
   return (
@@ -49,6 +59,15 @@ export default function RecordDetailPage() {
           </Box>
           <Box sx={{ ml: 'auto', display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ mt: 'auto' }}>
+              <Button
+                variant={recordItem?.verify_identity == false ? 'outlined' : 'contained'}
+                color="success"
+                fullWidth
+                sx={{ mb: 1 }}
+                onClick={handleRecordVerify}
+              >
+                Verify
+              </Button>
               <Button
                 variant="contained"
                 color="primary"
