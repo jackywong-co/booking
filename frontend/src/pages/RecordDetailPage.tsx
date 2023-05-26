@@ -30,13 +30,14 @@ export default function RecordDetailPage() {
     if (recordItem != null) {
       const result = await record.verifyRecord(recordItem);
       if (result === 'Success') {
-        initRecord();
+        // navigate('/');
       }
     }
   };
 
   useEffect(() => {
     initRecord();
+    handleRecordVerify();
   }, []);
 
   return (
