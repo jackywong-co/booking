@@ -1,4 +1,4 @@
-const CryptoJS = require('crypto-js');
+import * as CryptoJS from 'crypto-js';
 
 const Cryptor = {
   aes_ecb_encrypt: (textI: any, keyI: any) => {

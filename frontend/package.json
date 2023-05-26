@@ -13,6 +13,7 @@
     "@hcaptcha/react-hcaptcha": "^1.8.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.16",
+    "@types/crypto-js": "^4.1.1",
     "crypto-js": "^4.1.1",
     "formik": "^2.2.9",
     "qrcode.react": "^3.1.0",
