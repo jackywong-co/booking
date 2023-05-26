@@ -11,6 +11,7 @@ import {
   FormControl,
   FormHelperText
 } from '@mui/material';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useReocrd } from '../contexts/RecordContext';
@@ -22,7 +23,7 @@ export default function RecordCreatePage() {
   const navigate = useNavigate();
   const record = useReocrd();
 
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // const handlePhotoUpload = async (file: Blob) => {
   //   const fileName = await record.uploadRecord(file);
@@ -144,11 +145,7 @@ export default function RecordCreatePage() {
             error={formik.touched.id_number && Boolean(formik.errors.id_number)}
             helperText={formik.touched.id_number && formik.errors.id_number}
           />
-          {/* <Select labelId="demo-simple-select-label" id="demo-simple-select">
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select> */}
+
           <TextField
             fullWidth
             margin="normal"
@@ -161,12 +158,26 @@ export default function RecordCreatePage() {
             error={formik.touched.gender && Boolean(formik.errors.gender)}
             helperText={formik.touched.gender && formik.errors.gender}
           />
+          {/* <TextField
+            id="date"
+            label="Birthday"
+            type="date"
+            defaultValue="2017-05-24"
+            // className={classes.textField}
+            InputLabelProps={{
+              shrink: true
+            }}
+          /> */}
+
+          <DatePicker label="Basic date picker" />
+
           <TextField
             fullWidth
             margin="normal"
-            label="date_of_birth"
+            label="Date of Birth"
             id="date_of_birth"
             name="date_of_birth"
+            type="date"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.date_of_birth}
@@ -227,13 +238,14 @@ export default function RecordCreatePage() {
             <Select
               labelId="demo-simple-select-helper-label"
               id="brand_of_vaccine"
+              name="brand_of_vaccine"
               value={formik.values.brand_of_vaccine}
               label="brand_of_vaccine"
               onChange={formik.handleChange}
               required
             >
-              <MenuItem value={0}>Ten</MenuItem>
-              <MenuItem value={1}>Twenty</MenuItem>
+              <MenuItem value={0}>Comirnaty</MenuItem>
+              <MenuItem value={1}>CoronaVac</MenuItem>
             </Select>
           </FormControl>
 

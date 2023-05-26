@@ -12,6 +12,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.16",
+    "@mui/x-date-pickers": "^6.5.0",
     "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-cropper": "^2.3.3",
