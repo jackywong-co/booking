@@ -68,7 +68,7 @@ class User(AbstractUser):
     first_name = None
     last_name = None
     email = models.EmailField(_('email address'), unique=True)
-    totp = models.CharField(blank=True, null=True)
+    totp = models.CharField(blank=True, null=True, max_length=255)
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)

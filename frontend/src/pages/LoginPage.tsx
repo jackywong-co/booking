@@ -28,7 +28,16 @@ export default function LoginPage() {
   const [totpQRC, setTotpQRC] = useState(null);
   const [totpKey, setTotpKey] = useState(null);
 
-  const loginSubmission = async (token, values, totpCode, setSubmitting, setFieldError) => {
+  const loginSubmission = async (
+    token: string | null,
+    values: { email?: string; password: any; merchantId?: string },
+    totpCode: string | null,
+    setSubmitting: { (isSubmitting: boolean): void; (isSubmitting: boolean): void; (arg0: boolean): void },
+    setFieldError: {
+      (field: string, message: string | undefined): void;
+      (field: string, value: string | undefined): void;
+    }
+  ) => {
     const pw = Cryptor.aes_ecb_encrypt(values.password, process.env.REACT_APP_DATA_TRANSMIT_KEY);
 
     // const res = await UserAPI.login({
