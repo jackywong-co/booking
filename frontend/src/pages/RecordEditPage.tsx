@@ -1,16 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  TextField,
-  Typography,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormControl,
-  FormHelperText
-} from '@mui/material';
+import { Box, Button, Container, CssBaseline, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useReocrd } from '../contexts/RecordContext';
@@ -29,14 +17,14 @@ export default function RecordEditPage() {
 
   const initRecord = async () => {
     const result = await record.getRecord(id ?? '');
-    console.log('record get', result);
+    console.log('record list', result);
     setRecordItem(result);
   };
 
-  // const handlePhotoUpload = async (file: Blob) => {
-  //   const fileName = await record.uploadRecord(file);
-  //   formik.setFieldValue('image', fileName);
-  // };
+  const handlePhotoUpload = async (file: Blob) => {
+    const fileName = await record.uploadRecord(file);
+    formik.setFieldValue('image', fileName);
+  };
 
   // const handleResetPhoto = () => {
   //   formik.setFieldValue('image', '');
@@ -50,6 +38,7 @@ export default function RecordEditPage() {
     enableReinitialize: true,
     initialValues: {
       id: recordItem && recordItem.id,
+<<<<<<< HEAD
       ref_code: recordItem && recordItem.ref_code,
       firstname_en: recordItem && recordItem.firstname_en,
       lastname_en: recordItem && recordItem.lastname_en,
@@ -87,6 +76,21 @@ export default function RecordEditPage() {
       status: Yup.string().max(99).required(),
       created: Yup.string().max(99).required(),
       modified: Yup.string().max(99).required()
+=======
+      name: recordItem && recordItem.name,
+      breed: recordItem && recordItem.breed,
+      age: recordItem && recordItem.age,
+      description: recordItem && recordItem.description,
+      image: recordItem && recordItem.image
+    },
+    validationSchema: Yup.object({
+      id: Yup.string().max(99).required(),
+      name: Yup.string().max(99).required(),
+      breed: Yup.string().max(99).required(),
+      age: Yup.string().required(),
+      description: Yup.string().max(99).required(),
+      image: Yup.string().max(99)
+>>>>>>> parent of 68a8503 (no message)
     }),
     onSubmit: async (values, { setSubmitting }) => {
       // TODO
@@ -117,6 +121,7 @@ export default function RecordEditPage() {
         <Box component="form" autoComplete="off" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             fullWidth
+<<<<<<< HEAD
             margin="normal"
             label="English First Name "
             id="firstname_en"
@@ -282,6 +287,66 @@ export default function RecordEditPage() {
               <MenuItem value={1}>CoronaVac</MenuItem>
             </Select>
           </FormControl>
+=======
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            label="Record Name"
+            id="name"
+            name="name"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.name}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+          />
+          <TextField
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            label="Record Breed"
+            id="breed"
+            name="breed"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.breed}
+            error={formik.touched.breed && Boolean(formik.errors.breed)}
+            helperText={formik.touched.breed && formik.errors.breed}
+          />
+          <TextField
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            label="Record Age"
+            id="age"
+            name="age"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.age}
+            error={formik.touched.age && Boolean(formik.errors.age)}
+            helperText={formik.touched.age && formik.errors.age}
+          />
+          <TextField
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            label="Record Description"
+            id="description"
+            name="description"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.description}
+            error={formik.touched.description && Boolean(formik.errors.description)}
+            helperText={formik.touched.description && formik.errors.description}
+          />
+          {formik.values.image == '' ? (
+            <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={isLoading} />
+          ) : (
+            <img src={`${import.meta.env.VITE_API_URL}/uploads/${formik.values.image}`} width="200" loading="lazy" />
+          )}
+          <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResetPhoto}>
+            Delete Photo
+          </Button>
+>>>>>>> parent of 68a8503 (no message)
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Submit
           </Button>
