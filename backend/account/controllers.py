@@ -69,7 +69,7 @@ def login_token(request, credentials):
             data = {
                 'token': str(access_token),
                 'id': user.id,
-                'role': UserRole(user.role).value,
+                'role': user.is_staff
             }
             return response_http_ok(data)
         else:
@@ -137,33 +137,5 @@ def change_user_status(request, user):
             user.save()
             return response_auth_status_changed()
         return response_auth_status_invalid()
-    except:
-        return response_server_error(location, traceback.format_exc())
-
-
-def link_user_profile(request, pk):
-    try:
-        user_id = pk
-        profile_id = request.data["profile_id"]
-        if check_exists(Profile, profile_id) and check_exists(User, user_id):
-            user = User.objects.get(id=user_id)
-            profile = Profile.objects.get(id=profile_id)
-            UserProfile.objects.create(users=user, profiles=profile)
-            return response_http_ok({'message': HTTPResponseState.OK.value})
-        return response_http_bad_request({'message': HTTPResponseState.NOT_FOUND.value})
-    except:
-        return response_server_error(location, traceback.format_exc())
-
-
-def unlink_user_profile(request, pk):
-    try:
-        user_id = pk
-        profile_id = request.data["profile_id"]
-        if check_exists(Profile, profile_id) and check_exists(User, user_id):
-            user = User.objects.get(id=user_id)
-            profile = Profile.objects.get(id=profile_id)
-            UserProfile.objects.get(users=user, profiles=profile).delete()
-            return response_http_ok({'message': HTTPResponseState.OK.value})
-        return response_http_bad_request({'message': HTTPResponseState.NOT_FOUND.value})
     except:
         return response_server_error(location, traceback.format_exc())

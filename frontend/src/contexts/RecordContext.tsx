@@ -4,7 +4,7 @@ import { Record, RecordCreateForm } from '../models/Record';
 interface RecordContextType {
   selectedRecord: Record;
   listRecord: () => Promise<Record[]>;
-  getRecord: (catID: string) => Promise<Record>;
+  getRecord: (recordID: string) => Promise<Record>;
   createRecord: (recordInfo: RecordCreateForm) => Promise<string>;
   updateRecord: (recordInfo: Record) => Promise<string>;
   deleteRecord: (recordInfo: Record) => Promise<string>;

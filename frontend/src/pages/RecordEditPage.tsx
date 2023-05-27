@@ -28,7 +28,7 @@ export default function RecordEditPage() {
     place_of_birth: '',
     brand_of_vaccine: 0,
     verify_identity: false,
-    status: '',
+    status: 0,
     created: '',
     modified: ''
   });

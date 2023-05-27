@@ -9,8 +9,7 @@ interface AuthContextType {
   logout: () => string;
   getProfile: (userID: string) => Promise<string>;
   getToken: () => string;
-  getRole: () => string;
-  isStaff: () => boolean;
+  getRole: () => boolean;
   getID: () => string;
   isLogin: () => boolean;
 }
@@ -84,7 +83,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem('token', result.data.token);
       localStorage.setItem('userID', result.data.id);
       localStorage.setItem('userRole', result.data.role);
-      localStorage.setItem('staff', result.data.is_staff);
 
       console.log('Auth - login:', result.data);
       return 'Success';
@@ -102,7 +100,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getProfile = async (userID: string) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/users/${userID}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/${userID}`);
 
       if (!res.ok) {
         throw new Error('Get profile error');
@@ -138,19 +136,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const getRole = () => {
-    return localStorage.getItem('userRole') || '';
+    return localStorage.getItem('userRole') ? true : false;
   };
 
   const isLogin = () => {
     return localStorage.getItem('token') ? true : false;
   };
-  const isStaff = () => {
-    return localStorage.getItem('staff') ? true : false;
-  };
+
   return (
-    <AuthContext.Provider
-      value={{ profile, register, login, logout, getProfile, getToken, getID, getRole, isLogin, isStaff }}
-    >
+    <AuthContext.Provider value={{ profile, register, login, logout, getProfile, getToken, getID, getRole, isLogin }}>
       {children}
     </AuthContext.Provider>
   );

@@ -7,6 +7,7 @@ from rest_framework.viewsets import GenericViewSet
 from account.controllers import login_token, change_user_password, reset_user_password, change_user_status, \
     register_user
 from account.models import User
+from account.permissions import OwnerRetrieveAdminList, PublicCreateAdminAll
 from account.serializers import UserSerializer, UserUpdateSerializer
 
 
@@ -40,8 +41,14 @@ class UserViewSet(mixins.RetrieveModelMixin,
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = None
-    permission_classes = [IsAdminUser]
 
+    permission_classes = [OwnerRetrieveAdminList]
+
+    # def get_permissions(self):
+    #     if self.action == 'ge':
+    #         return [AllowAny()]
+    #     else:
+    #         return super().get_permissions()
     def get_serializer_class(self):
         serializer_class = self.serializer_class
         if self.request.method == 'PUT':

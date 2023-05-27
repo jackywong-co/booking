@@ -1,8 +1,7 @@
 export interface Profile {
-  id: number;
+  id: string;
   email: string;
-  role: number;
-  isStaff: boolean;
+  role: boolean;
   status?: number;
   created?: string;
   token?: string;
@@ -20,11 +19,19 @@ export interface UserLoginForm {
   password: string;
 }
 
-export interface UserCreateForm {
-  id: number;
+export interface User {
+  id: string;
   email: string;
-  role: number;
-  isStaff: boolean;
+  role: boolean;
+  status: number;
+  created: string;
+  modified: string;
+}
+
+export interface UserCreateForm {
+  id: string;
+  email: string;
+  role: boolean;
   status: number;
   created: string;
   modified: string;

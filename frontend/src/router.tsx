@@ -61,6 +61,38 @@ export const routes: RouteObject[] = [
             <RecordDetailPage />
           </RequireAuth>
         )
+      },
+      {
+        path: '/user/',
+        element: (
+          <RequireAuth>
+            <RecordPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/user/create',
+        element: (
+          <RequireAuth>
+            <RegistrationPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/user/edit/:id',
+        element: (
+          <RequireAuth>
+            <RecordEditPage />
+          </RequireAuth>
+        )
+      },
+      {
+        path: '/user/:id',
+        element: (
+          <RequireAuth>
+            <RecordDetailPage />
+          </RequireAuth>
+        )
       }
     ]
   }
