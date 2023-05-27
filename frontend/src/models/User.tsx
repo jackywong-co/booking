@@ -1,17 +1,17 @@
 export interface Profile {
   id: string;
   email: string;
-  role: boolean;
+  is_staff: boolean;
   status?: number;
   created?: string;
   token?: string;
   isLogin: boolean;
 }
 
-export interface UserRegisterForm {
+export interface UserCreateForm {
   email: string;
   password: string;
-  role: string;
+  is_staff: boolean;
 }
 
 export interface UserLoginForm {
@@ -22,16 +22,7 @@ export interface UserLoginForm {
 export interface User {
   id: string;
   email: string;
-  role: boolean;
-  status: number;
-  created: string;
-  modified: string;
-}
-
-export interface UserCreateForm {
-  id: string;
-  email: string;
-  role: boolean;
+  is_staff: boolean;
   status: number;
   created: string;
   modified: string;

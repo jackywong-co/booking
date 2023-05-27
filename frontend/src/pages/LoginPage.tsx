@@ -91,13 +91,6 @@ export default function LoginPage() {
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Login
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="/registration" variant="body2">
-                  {"Don't have an account? Registration"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>

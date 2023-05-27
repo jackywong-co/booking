@@ -1,10 +1,10 @@
 import { createContext, useContext, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { Profile, UserLoginForm, UserRegisterForm } from '../models/User';
+import { Profile, UserLoginForm, UserCreateForm } from '../models/User';
 
 interface AuthContextType {
   profile: Profile | undefined;
-  register: (registerInfo: UserRegisterForm) => Promise<string>;
+  register: (registerInfo: UserCreateForm) => Promise<string>;
   login: (loginInfo: UserLoginForm) => Promise<string>;
   logout: () => string;
   getProfile: (userID: string) => Promise<string>;
@@ -19,7 +19,7 @@ export const AuthContext = createContext<AuthContextType>(null!);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [profile, setProfile] = useState<Profile | undefined>(undefined);
 
-  const register = async (registerInfo: UserRegisterForm) => {
+  const register = async (registerInfo: UserCreateForm) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/register/`, {
         method: 'post',
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       localStorage.setItem('token', result.data.token);
       localStorage.setItem('userID', result.data.id);
-      localStorage.setItem('userRole', result.data.role);
+      localStorage.setItem('userRole', result.data.is_staff);
 
       console.log('Auth - login:', result.data);
       return 'Success';
@@ -136,7 +136,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const getRole = () => {
-    return localStorage.getItem('userRole') ? true : false;
+    return localStorage.getItem('userRole') == 'true' ? true : false;
   };
 
   const isLogin = () => {

@@ -29,7 +29,7 @@ export default function RecordDetailPage() {
     place_of_birth: '',
     brand_of_vaccine: 0,
     verify_identity: false,
-    status: '',
+    status: 0,
     created: '',
     modified: ''
   });
@@ -40,7 +40,6 @@ export default function RecordDetailPage() {
 
   const handleRecordDelete = async () => {
     if (recordItem != null) {
-      console.log('aa');
       const result = await record.deleteRecord(recordItem);
       if (result === 'Success') {
         navigate('/');
@@ -88,7 +87,10 @@ export default function RecordDetailPage() {
       lastname_en: Yup.string().max(99).required(),
       firstname_zh: Yup.string().max(99).required(),
       lastname_zh: Yup.string().max(99).required(),
-      id_number: Yup.string().max(99).required(),
+      id_number: Yup.string()
+        .max(99)
+        .required()
+        .matches(/^[A-Z]{1,2}[0-9]{6}[0-9A]$/),
       gender: Yup.string().max(99).required(),
       date_of_birth: Yup.string().max(99).required(),
       booking_date: Yup.string().max(99).required(),

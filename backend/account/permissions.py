@@ -38,10 +38,8 @@ class OwnerRetrieveAdminList(permissions.BasePermission):
     def has_permission(self, request, view):
         # for admin
         if request.user.is_staff:
-            if view.action == 'list' or view.action == 'retrieve':
-                return True
-            else:
-                return False
+            return True
+
         # Instance must have an attribute named `user`
         # In this case "Vendor" have "user" model attribute
         else:

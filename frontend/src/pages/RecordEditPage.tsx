@@ -11,7 +11,6 @@ export default function RecordEditPage() {
   const navigate = useNavigate();
   const record = useReocrd();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [recordItem, setRecordItem] = useState<Record>({
     id: '',
     ref_code: '',
@@ -70,7 +69,10 @@ export default function RecordEditPage() {
       lastname_en: Yup.string().max(99).required(),
       firstname_zh: Yup.string().max(99).required(),
       lastname_zh: Yup.string().max(99).required(),
-      id_number: Yup.string().max(99).required(),
+      id_number: Yup.string()
+        .max(99)
+        .required()
+        .matches(/^[A-Z]{1,2}[0-9]{6}[0-9A]$/),
       gender: Yup.string().max(99).required(),
       date_of_birth: Yup.string().max(99).required(),
       booking_date: Yup.string().max(99).required(),

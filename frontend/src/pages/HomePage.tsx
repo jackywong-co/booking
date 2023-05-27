@@ -36,7 +36,7 @@ function HomePage() {
 
   return (
     <Container sx={{ py: 8 }} maxWidth="xl">
-      {auth.isLogin() && !auth.getRole() && (
+      {!auth.getRole() && (
         <Button variant="contained" onClick={() => navigate('/record/create')}>
           Add Record
         </Button>

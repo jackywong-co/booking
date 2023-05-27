@@ -2,12 +2,15 @@ import { RouteObject, createBrowserRouter } from 'react-router-dom';
 import { RequireAuth } from './contexts/AuthContext';
 import App from './App';
 import LoginPage from './pages/LoginPage';
-import RegistrationPage from './pages/RegistrationPage';
+
 import RecordPage from './pages/RecordPage';
 import RecordCreatePage from './pages/RecordCreatePage';
 import HomePage from './pages/HomePage';
 import RecordDetailPage from './pages/RecordDetailPage';
 import RecordEditPage from './pages/RecordEditPage';
+import UserCratePage from './pages/UserCreatePage';
+import UserDetailPage from './pages/UserDetailPage';
+import UserEditPage from './pages/UserEditPage';
 
 export const routes: RouteObject[] = [
   {
@@ -21,14 +24,6 @@ export const routes: RouteObject[] = [
       {
         path: '/login',
         element: <LoginPage />
-      },
-      {
-        path: '/registration',
-        element: (
-          <RequireAuth>
-            <RegistrationPage />
-          </RequireAuth>
-        )
       },
       {
         path: '/record/',
@@ -74,7 +69,7 @@ export const routes: RouteObject[] = [
         path: '/user/create',
         element: (
           <RequireAuth>
-            <RegistrationPage />
+            <UserCratePage />
           </RequireAuth>
         )
       },
@@ -82,7 +77,7 @@ export const routes: RouteObject[] = [
         path: '/user/edit/:id',
         element: (
           <RequireAuth>
-            <RecordEditPage />
+            <UserEditPage />
           </RequireAuth>
         )
       },
@@ -90,7 +85,7 @@ export const routes: RouteObject[] = [
         path: '/user/:id',
         element: (
           <RequireAuth>
-            <RecordDetailPage />
+            <UserDetailPage />
           </RequireAuth>
         )
       }

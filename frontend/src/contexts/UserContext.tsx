@@ -38,7 +38,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           'Content-Length': res.headers.get('Content-Length')
         },
         length: res.headers.get('Content-Length'),
-        data: data.filter((n: User) => n.id != localStorage.getItem('userID'))
+        data: data.filter((n: User) => n.id != localStorage.getItem('userID') && n.status != 0)
       };
       return result.data;
     } catch (err: any) {
@@ -85,6 +85,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/user/`, {
         method: 'post',
         headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(userInfo)

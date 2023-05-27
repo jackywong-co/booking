@@ -69,7 +69,7 @@ def login_token(request, credentials):
             data = {
                 'token': str(access_token),
                 'id': user.id,
-                'role': user.is_staff
+                'is_staff': user.is_staff
             }
             return response_http_ok(data)
         else:
