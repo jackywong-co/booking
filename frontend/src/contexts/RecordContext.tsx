@@ -49,9 +49,9 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const getRecord = async (catID: string) => {
+  const getRecord = async (recordID: string) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${catID}/`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordID}/`, {
         method: 'get',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),

@@ -11,7 +11,6 @@ export interface Profile {
 export interface UserRegisterForm {
   email: string;
   password: string;
-  role: string;
 }
 
 export interface UserLoginForm {
@@ -20,6 +19,15 @@ export interface UserLoginForm {
 }
 
 export interface User {
+  id: number;
+  email: string;
+  role: number;
+  status: number;
+  created: string;
+  modified: string;
+}
+
+export interface UserCreateForm {
   id: number;
   email: string;
   role: number;

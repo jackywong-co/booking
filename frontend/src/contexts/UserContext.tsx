@@ -1,14 +1,13 @@
 import { createContext, useContext, useState } from 'react';
-import { User, UserRegisterForm } from '../models/User';
+import { User, UserCreateForm } from '../models/User';
 
 interface UserContextType {
   selectedUser: User;
   listUser: () => Promise<User[]>;
   getUser: (catID: string) => Promise<User>;
-  createUser: (recordInfo: UserRegisterForm) => Promise<string>;
-  updateUser: (recordInfo: User) => Promise<string>;
-  deleteUser: (recordInfo: User) => Promise<string>;
-  verifyUser: (recordInfo: User) => Promise<string>;
+  createUser: (userInfo: UserCreateForm) => Promise<string>;
+  updateUser: (userInfo: User) => Promise<string>;
+  deleteUser: (userInfo: User) => Promise<string>;
 }
 
 export const UserContext = createContext<UserContextType>(null!);
@@ -60,7 +59,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (!res.ok) {
-        throw new Error('Get Record Error');
+        throw new Error('Get User Error');
       }
 
       const data = await res.json();
@@ -77,23 +76,23 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
       return result.data;
     } catch (err: any) {
-      console.log('Get Record error:', err.message);
+      console.log('Get User error:', err.message);
       return null;
     }
   };
 
-  const createRecord = async (recordInfo: RecordCreateForm) => {
+  const createUser = async (userInfo: UserCreateForm) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/User/`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(recordInfo)
+        body: JSON.stringify(userInfo)
       });
 
       if (!res.ok) {
-        throw new Error('Create Record Error');
+        throw new Error('Create User Error');
       }
 
       const data = await res.json();
@@ -107,27 +106,27 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         data: data
       };
 
-      console.log('Create Record:', result.data);
+      console.log('Create User:', result.data);
       return 'Success';
     } catch (err: any) {
-      console.log('Create Record error:', err.message);
+      console.log('Create User error:', err.message);
       return 'Fail';
     }
   };
 
-  const updateRecord = async (recordInfo: Record) => {
+  const updateUser = async (userInfo: User) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/User/${userInfo.id}/`, {
         method: 'put',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(recordInfo)
+        body: JSON.stringify(userInfo)
       });
 
       if (!res.ok) {
-        throw new Error('Create Record Error');
+        throw new Error('Create User Error');
       }
 
       const data = await res.json();
@@ -141,28 +140,28 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         data: data
       };
 
-      console.log('Create Record:', result.data);
+      console.log('Create User:', result.data);
       return 'Success';
     } catch (err: any) {
-      console.log('Create Record error:', err.message);
+      console.log('Create User error:', err.message);
       return 'Fail';
     }
   };
 
-  const deleteRecord = async (recordInfo: Record) => {
-    recordInfo.status = '0';
+  const deleteUser = async (userInfo: User) => {
+    userInfo.status = 0;
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/User/${userInfo.id}/`, {
         method: 'put',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(recordInfo)
+        body: JSON.stringify(userInfo)
       });
 
       if (!res.ok) {
-        throw new Error('Delete Record Error');
+        throw new Error('Delete User Error');
       }
 
       const data = await res.json();
@@ -176,62 +175,21 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         data: data
       };
 
-      console.log('Delete Record:', result.data);
+      console.log('Delete User:', result.data);
       return 'Success';
     } catch (err: any) {
-      console.log('Delete Record error:', err.message);
-      return 'Fail';
-    }
-  };
-
-  const verifyRecord = async (recordInfo: Record) => {
-    if (recordInfo.verify_identity == true) {
-      recordInfo.verify_identity = false;
-    } else {
-      recordInfo.verify_identity = true;
-    }
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
-        method: 'put',
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(recordInfo)
-      });
-
-      if (!res.ok) {
-        throw new Error('Verify Record Error');
-      }
-
-      const data = await res.json();
-
-      const result = {
-        status: res.status + '-' + res.statusText,
-        headers: {
-          'Content-Type': res.headers.get('Content-Type'),
-          'Content-Length': res.headers.get('Content-Length')
-        },
-        data: data
-      };
-
-      console.log('Verify Record:', result.data);
-      return 'Success';
-    } catch (err: any) {
-      console.log('Verify Record error:', err.message);
+      console.log('Delete User error:', err.message);
       return 'Fail';
     }
   };
 
   return (
-    <UserContext.Provider
-      value={{ selectedUser, listUser, getUser, createRecord, updateRecord, deleteRecord, verifyRecord }}
-    >
+    <UserContext.Provider value={{ selectedUser, listUser, getUser, createUser, updateUser, deleteUser }}>
       {children}
     </UserContext.Provider>
   );
 };
 
-export const useReocrd = () => {
+export const useUser = () => {
   return useContext(UserContext);
 };
