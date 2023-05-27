@@ -41,20 +41,3 @@ def simple_totp_code_generator(key):
     print(num)
     output_res = totp_verify(key, num)
     print(output_res)
-
-
-if __name__ == '__main__':
-    # test_totp_demo()
-
-    # kml
-    # key = 'HTQRGQOFEGL4DCV7CP44UULN3RLNXSLC'
-
-    # app
-    # key = 'WIBH42457YLF6J5YUO6Z5ZFPPNCCYEI4'
-
-    # test 5
-    # key = 'VUA3H7CJJGQW4CZKXFWKHQ7HAO6KC7VG'
-
-    # test 1
-    key = 'JIBBVW4FINUFSI55MGEPYQVV7RKZZCXK'
-    simple_totp_code_generator(key)
