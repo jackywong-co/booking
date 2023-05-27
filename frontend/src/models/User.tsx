@@ -17,6 +17,8 @@ export interface UserCreateForm {
 export interface UserLoginForm {
   email: string;
   password: string;
+  captcha_token: string;
+  totp_code: string;
 }
 
 export interface User {

@@ -66,7 +66,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (!res.ok) {
-        throw new Error('Login Error');
+        let err: any = new Error('Login Fail');
+        err.response = res.json();
+        err.status = res.status;
+        throw err;
       }
 
       const data = await res.json();
@@ -85,10 +88,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem('userRole', result.data.is_staff);
 
       console.log('Auth - login:', result.data);
-      return 'Success';
+      return result.data;
     } catch (err: any) {
       console.log('Auth - login error:', err.message);
-      return 'Fail';
+      return err.response;
     }
   };
 
