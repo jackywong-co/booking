@@ -1,24 +1,24 @@
 import { createContext, useContext, useState } from 'react';
-import { Record, RecordCreateForm } from '../models/Record';
+import { User, UserRegisterForm } from '../models/User';
 
-interface RecordContextType {
-  selectedRecord: Record;
-  listRecord: () => Promise<Record[]>;
-  getRecord: (catID: string) => Promise<Record>;
-  createRecord: (recordInfo: RecordCreateForm) => Promise<string>;
-  updateRecord: (recordInfo: Record) => Promise<string>;
-  deleteRecord: (recordInfo: Record) => Promise<string>;
-  verifyRecord: (recordInfo: Record) => Promise<string>;
+interface UserContextType {
+  selectedUser: User;
+  listUser: () => Promise<User[]>;
+  getUser: (catID: string) => Promise<User>;
+  createUser: (recordInfo: UserRegisterForm) => Promise<string>;
+  updateUser: (recordInfo: User) => Promise<string>;
+  deleteUser: (recordInfo: User) => Promise<string>;
+  verifyUser: (recordInfo: User) => Promise<string>;
 }
 
-export const RecordContext = createContext<RecordContextType>(null!);
+export const UserContext = createContext<UserContextType>(null!);
 
-export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
-  const [selectedRecord, setSelectedRecord] = useState<any>(null);
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const [selectedUser, setSelectedUser] = useState<any>(null);
 
-  const listRecord = async () => {
+  const listUser = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/`, {
         method: 'get',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -27,7 +27,7 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (!res.ok) {
-        throw new Error('List Record Error');
+        throw new Error('List User Error');
       }
 
       const data = await res.json();
@@ -39,19 +39,19 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
           'Content-Length': res.headers.get('Content-Length')
         },
         length: res.headers.get('Content-Length'),
-        data: data.filter((n: Record) => n.status != 0)
+        data: data.filter((n: User) => n.status != 0)
       };
 
       return result.data;
     } catch (err: any) {
-      console.log('List Record error:', err.message);
+      console.log('List User error:', err.message);
       return [];
     }
   };
 
-  const getRecord = async (catID: string) => {
+  const getUser = async (userID: string) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${catID}/`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/${userID}/`, {
         method: 'get',
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -150,7 +150,7 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const deleteRecord = async (recordInfo: Record) => {
-    recordInfo.status = 0;
+    recordInfo.status = '0';
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/record/${recordInfo.id}/`, {
         method: 'put',
@@ -224,14 +224,14 @@ export const RecordProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <RecordContext.Provider
-      value={{ selectedRecord, listRecord, getRecord, createRecord, updateRecord, deleteRecord, verifyRecord }}
+    <UserContext.Provider
+      value={{ selectedUser, listUser, getUser, createRecord, updateRecord, deleteRecord, verifyRecord }}
     >
       {children}
-    </RecordContext.Provider>
+    </UserContext.Provider>
   );
 };
 
 export const useReocrd = () => {
-  return useContext(RecordContext);
+  return useContext(UserContext);
 };

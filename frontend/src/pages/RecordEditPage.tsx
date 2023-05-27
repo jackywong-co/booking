@@ -1,20 +1,8 @@
-import {
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  TextField,
-  Typography,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem
-} from '@mui/material';
+import { Box, Button, Container, CssBaseline, TextField, Typography, MenuItem } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useReocrd } from '../contexts/RecordContext';
 import { useNavigate, useParams } from 'react-router-dom';
-import PhotoUploadWidget from '../components/PhotoUploadWidget';
 import { useEffect, useState } from 'react';
 import { Record } from '../models/Record';
 
@@ -24,17 +12,32 @@ export default function RecordEditPage() {
   const record = useReocrd();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [recordItem, setRecordItem] = useState<Record>();
+  const [recordItem, setRecordItem] = useState<Record>({
+    id: '',
+    ref_code: '',
+    firstname_en: '',
+    lastname_en: '',
+    firstname_zh: '',
+    lastname_zh: '',
+    id_number: '',
+    gender: 0,
+    date_of_birth: '',
+    booking_date: '',
+    booking_time: '',
+    address: '',
+    place_of_birth: '',
+    brand_of_vaccine: 0,
+    verify_identity: false,
+    status: '',
+    created: '',
+    modified: ''
+  });
 
   const initRecord = async () => {
     const result = await record.getRecord(id ?? '');
-    console.log('record list', result);
+    console.log('record get', result);
     setRecordItem(result);
   };
-
-  // const handleResetPhoto = () => {
-  //   formik.setFieldValue('image', '');
-  // };
 
   useEffect(() => {
     initRecord();
@@ -63,8 +66,6 @@ export default function RecordEditPage() {
       modified: recordItem && recordItem.modified
     },
     validationSchema: Yup.object({
-      id: Yup.string().max(99).required(),
-      ref_code: Yup.string().max(99).required(),
       firstname_en: Yup.string().max(99).required(),
       lastname_en: Yup.string().max(99).required(),
       firstname_zh: Yup.string().max(99).required(),
@@ -76,21 +77,42 @@ export default function RecordEditPage() {
       booking_time: Yup.string().max(99).required(),
       address: Yup.string().max(99).required(),
       place_of_birth: Yup.string().max(99).required(),
-      brand_of_vaccine: Yup.string().max(99).required(),
-      verify_identity: Yup.boolean().required(),
-      status: Yup.string().max(99).required(),
-      created: Yup.string().max(99).required(),
-      modified: Yup.string().max(99).required()
+      brand_of_vaccine: Yup.number().max(99).required()
     }),
     onSubmit: async (values, { setSubmitting }) => {
-      // TODO
       const result = await record.updateRecord(values);
       if (result === 'Success') {
         setSubmitting(false);
-        navigate('/');
+        navigate(`/record/${recordItem && recordItem.id}`);
       }
     }
   });
+
+  const gender = [
+    {
+      value: '0',
+      label: 'M'
+    },
+    {
+      value: '1',
+      label: 'F'
+    },
+    {
+      value: '2',
+      label: 'Other'
+    }
+  ];
+
+  const brand_of_vaccine = [
+    {
+      value: '0',
+      label: 'Comirnaty'
+    },
+    {
+      value: '1',
+      label: 'CoronaVac'
+    }
+  ];
 
   return (
     <Container component="main" maxWidth="xs">
@@ -169,23 +191,25 @@ export default function RecordEditPage() {
             error={formik.touched.id_number && Boolean(formik.errors.id_number)}
             helperText={formik.touched.id_number && formik.errors.id_number}
           />
-          <FormControl sx={{ mt: 1, minWidth: 400 }}>
-            <InputLabel id="demo-simple-select-helper-label">Gender</InputLabel>
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="gender"
-              name="gender"
-              value={formik.values.gender}
-              label="gender"
-              onChange={formik.handleChange}
-              required
-            >
-              <MenuItem value={0}>M</MenuItem>
-              <MenuItem value={1}>F</MenuItem>
-              <MenuItem value={2}>Other</MenuItem>
-            </Select>
-          </FormControl>
-
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Gender"
+            id="gender"
+            name="gender"
+            select
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.gender}
+            error={formik.touched.gender && Boolean(formik.errors.gender)}
+            helperText={formik.touched.gender && formik.errors.gender}
+          >
+            {gender.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
           <TextField
             fullWidth
             margin="normal"
@@ -193,10 +217,6 @@ export default function RecordEditPage() {
             id="date_of_birth"
             name="date_of_birth"
             type="date"
-            defaultValue="/0405/2017"
-            InputLabelProps={{
-              shrink: true
-            }}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.date_of_birth}
@@ -211,9 +231,6 @@ export default function RecordEditPage() {
             id="booking_date"
             name="booking_date"
             type="date"
-            InputLabelProps={{
-              shrink: true
-            }}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.booking_date}
@@ -227,9 +244,6 @@ export default function RecordEditPage() {
             id="booking_time"
             name="booking_time"
             type="time"
-            InputLabelProps={{
-              shrink: true
-            }}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.booking_time}
@@ -260,22 +274,25 @@ export default function RecordEditPage() {
             error={formik.touched.place_of_birth && Boolean(formik.errors.place_of_birth)}
             helperText={formik.touched.place_of_birth && formik.errors.place_of_birth}
           />
-
-          <FormControl sx={{ mt: 1, minWidth: 400 }}>
-            <InputLabel id="demo-simple-select-helper-label">Brand of Vaccine</InputLabel>
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="brand_of_vaccine"
-              name="brand_of_vaccine"
-              value={formik.values.brand_of_vaccine}
-              label="brand_of_vaccine"
-              onChange={formik.handleChange}
-              required
-            >
-              <MenuItem value={0}>Comirnaty</MenuItem>
-              <MenuItem value={1}>CoronaVac</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Brand of Vaccine"
+            id="brand_of_vaccine"
+            name="brand_of_vaccine"
+            select
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.brand_of_vaccine}
+            error={formik.touched.brand_of_vaccine && Boolean(formik.errors.brand_of_vaccine)}
+            helperText={formik.touched.brand_of_vaccine && formik.errors.brand_of_vaccine}
+          >
+            {brand_of_vaccine.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
 
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Submit

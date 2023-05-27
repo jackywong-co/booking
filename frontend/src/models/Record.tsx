@@ -6,15 +6,15 @@ export interface Record {
   firstname_zh: string;
   lastname_zh: string;
   id_number: string;
-  gender: string;
+  gender: number;
   date_of_birth: string;
   booking_date: string;
   booking_time: string;
   address: string;
   place_of_birth: string;
-  brand_of_vaccine: string;
+  brand_of_vaccine: number;
   verify_identity: boolean;
-  status: string;
+  status: number;
   created: string;
   modified: string;
 }

@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const register = async (registerInfo: UserRegisterForm) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/register/`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
