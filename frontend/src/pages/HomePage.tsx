@@ -5,7 +5,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import { useReocrd } from '../contexts/RecordContext';
 import { Record } from '../models/Record';
-import AccountPage from './AccountPage';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -51,8 +50,6 @@ function HomePage() {
         </Grid>
       )}
       {auth.isLogin() && auth.getRole() == '0' && recordList.length == 0 && <Typography>No Record</Typography>}
-
-      {auth.isLogin() && auth.getRole() == '1' && <AccountPage />}
     </Container>
   );
 }

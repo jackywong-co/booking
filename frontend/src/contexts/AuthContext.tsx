@@ -10,6 +10,7 @@ interface AuthContextType {
   getProfile: (userID: string) => Promise<string>;
   getToken: () => string;
   getRole: () => string;
+  isStaff: () => boolean;
   getID: () => string;
   isLogin: () => boolean;
 }
@@ -83,6 +84,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem('token', result.data.token);
       localStorage.setItem('userID', result.data.id);
       localStorage.setItem('userRole', result.data.role);
+      localStorage.setItem('staff', result.data.is_staff);
 
       console.log('Auth - login:', result.data);
       return 'Success';
@@ -142,9 +144,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const isLogin = () => {
     return localStorage.getItem('token') ? true : false;
   };
-
+  const isStaff = () => {
+    return localStorage.getItem('staff') ? true : false;
+  };
   return (
-    <AuthContext.Provider value={{ profile, register, login, logout, getProfile, getToken, getID, getRole, isLogin }}>
+    <AuthContext.Provider
+      value={{ profile, register, login, logout, getProfile, getToken, getID, getRole, isLogin, isStaff }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -14,10 +14,6 @@ verified = {
     (1, 'UNVERIFIED'),
     (2, 'VERIFIED'),
 }
-role = {
-    (0, 'staff'),
-    (1, 'admin')
-}
 
 
 class UserManager(BaseUserManager):
@@ -73,7 +69,6 @@ class User(AbstractUser):
     modified = models.DateTimeField(auto_now=True)
     verified = models.SmallIntegerField(choices=verified, blank=True, null=True, default=0)
     status = models.SmallIntegerField(choices=status, blank=True, null=True, default=1)
-    role = models.SmallIntegerField(choices=role, blank=True, null=True, default=0)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
