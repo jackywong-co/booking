@@ -16,6 +16,7 @@ export default function UserEditPage() {
   const [userItem, setUserItem] = useState<User>({
     id: '',
     email: '',
+    totp: '',
     is_staff: false,
     status: 0,
     created: '',
@@ -37,6 +38,7 @@ export default function UserEditPage() {
     initialValues: {
       id: userItem && userItem.id,
       email: userItem && userItem.email,
+      totp: userItem && userItem.totp,
       is_staff: userItem && userItem.is_staff,
       status: userItem && userItem.status,
       created: userItem && userItem.created,
@@ -44,6 +46,7 @@ export default function UserEditPage() {
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required(),
+      totp: Yup.string().required(),
       is_staff: Yup.boolean().required()
     }),
     onSubmit: async (values, { setSubmitting }) => {
@@ -83,7 +86,17 @@ export default function UserEditPage() {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-
+          <TextField
+            fullWidth
+            label="TOPT"
+            id="totp"
+            name="totp"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.totp}
+            error={formik.touched.totp && Boolean(formik.errors.totp)}
+            helperText={formik.touched.totp && formik.errors.totp}
+          />
           <TextField
             select
             fullWidth

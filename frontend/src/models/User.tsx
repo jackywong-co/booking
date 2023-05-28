@@ -25,6 +25,7 @@ export interface User {
   id: string;
   email: string;
   is_staff: boolean;
+  totp: string;
   status: number;
   created: string;
   modified: string;

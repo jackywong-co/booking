@@ -129,12 +129,15 @@ export default function LoginPage() {
   };
 
   const onVerity = (token: string) => {
+    console.log('h, onVerity:', token);
     loginSubmission(token, formik.values, null, formik.setSubmitting, formik.setFieldError);
   };
   const onExpire = () => {
+    console.log('h, onExpire');
     if (isMountedRef.current) formik.setFieldError('errorMessage', 'Captcha Expire');
   };
   const onError = (err: any) => {
+    console.log('h, onError');
     if (isMountedRef.current) formik.setFieldError('errorMessage', `Captcha Error: ${err}`);
   };
 
