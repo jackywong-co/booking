@@ -19,6 +19,10 @@ class Record(models.Model):
         (2, 'INACTIVE'),
         (3, 'DELETED'),
     }
+    place = {
+        (0, 'Sha Tin'),
+        (1, 'Tai Wai')
+    }
     id = models.UUIDField(primary_key=True, auto_created=True, default=uuid.uuid4, editable=False)
     firstname_en = models.CharField(max_length=200, blank=False, null=True)
     lastname_en = models.CharField(max_length=200, blank=False, null=True)
@@ -32,6 +36,7 @@ class Record(models.Model):
     address = models.CharField(max_length=200, blank=False, null=True)
     place_of_birth = models.CharField(max_length=200, blank=False, null=True)
     brand_of_vaccine = models.SmallIntegerField(choices=brand_of_vaccine, blank=False, null=True, default=0)
+    place_of_vaccine = models.SmallIntegerField(choices=place, blank=False, null=True, default=0)
     ref_code = models.UUIDField(auto_created=True, default=uuid.uuid4, editable=False)
     verify_identity = models.BooleanField(default=False)
     status = models.SmallIntegerField(choices=status, blank=False, null=True, default=1)

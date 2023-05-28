@@ -25,46 +25,7 @@ export default function RecordCreatePage() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const formik = useFormik({
-    initialValues: {
-      firstname_en: '',
-      lastname_en: '',
-      firstname_zh: '',
-      lastname_zh: '',
-      id_number: '',
-      gender: '',
-      date_of_birth: '',
-      booking_date: '',
-      booking_time: '',
-      address: '',
-      place_of_birth: '',
-      brand_of_vaccine: ''
-    },
-    validationSchema: Yup.object({
-      firstname_en: Yup.string().max(99).required(),
-      lastname_en: Yup.string().max(99).required(),
-      firstname_zh: Yup.string().max(99).required(),
-      lastname_zh: Yup.string().max(99).required(),
-      id_number: Yup.string()
-        .max(99)
-        .required()
-        .matches(/^[A-Z]{1,2}[0-9]{6}[0-9A]$/),
-      gender: Yup.string().max(99).required(),
-      date_of_birth: Yup.string().max(99).required(),
-      booking_date: Yup.string().max(99).required(),
-      booking_time: Yup.string().max(99).required(),
-      address: Yup.string().max(99).required(),
-      place_of_birth: Yup.string().max(99).required(),
-      brand_of_vaccine: Yup.string().max(99).required()
-    }),
-    onSubmit: async (values, { setSubmitting }) => {
-      const result = await record.createRecord(values);
-      if (result === 'Success') {
-        setSubmitting(false);
-        navigate('/');
-      }
-    }
-  });
+  const hkidRegex = /^[A-Z]{1,2}[0-9]{6}[A0-9]$/;
   const gender = [
     {
       value: '0',
@@ -90,6 +51,152 @@ export default function RecordCreatePage() {
       label: 'CoronaVac'
     }
   ];
+  const place_of_vaccine = [
+    {
+      value: '0',
+      label: 'Sha Tin'
+    },
+    {
+      value: '1',
+      label: 'Tai Wai'
+    }
+  ];
+
+  let booking_date = [
+    {
+      value: '2023-05-28',
+      label: '2023-05-28',
+      status: 0
+    },
+    {
+      value: '2023-05-29',
+      label: '2023-05-29',
+      status: 0
+    },
+    {
+      value: '2023-05-30',
+      label: '2023-05-30',
+      status: 0
+    },
+    {
+      value: '2023-05-31',
+      label: '2023-05-31',
+      status: 0
+    }
+  ];
+  let booking_time = [
+    {
+      value: '09:00:00',
+      label: '09:00:00',
+      status: 0
+    },
+    {
+      value: '10:00:00',
+      label: '10:00:00',
+      status: 0
+    },
+    {
+      value: '11:00:00',
+      label: '11:00:00',
+      status: 0
+    },
+    {
+      value: '12:00:00',
+      label: '12:00:00',
+      status: 0
+    },
+    {
+      value: '13:00:00',
+      label: '13:00:00',
+      status: 0
+    },
+    {
+      value: '14:00:00',
+      label: '14:00:00',
+      status: 0
+    },
+    {
+      value: '15:00:00',
+      label: '15:00:00',
+      status: 0
+    }
+  ];
+  const isValidChecksum = (hkid: any) => {
+    var strValidChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (hkid.length < 8) {
+      return false;
+    }
+    hkid = hkid.toUpperCase();
+    var hkidPat = /^([A-Z]{1,2})([0-9]{6})([A0-9])$/;
+    var matchArray = hkid.match(hkidPat);
+    if (matchArray == null) {
+      return false;
+    }
+    var charPart = matchArray[1];
+    var numPart = matchArray[2];
+    var checkDigit = matchArray[3];
+    var checkSum = 0;
+    if (charPart.length == 2) {
+      checkSum += 9 * (10 + strValidChars.indexOf(charPart.charAt(0)));
+      checkSum += 8 * (10 + strValidChars.indexOf(charPart.charAt(1)));
+    } else {
+      checkSum += 9 * 36;
+      checkSum += 8 * (10 + strValidChars.indexOf(charPart));
+    }
+
+    for (var i = 0, j = 7; i < numPart.length; i++, j--) {
+      checkSum += j * numPart.charAt(i);
+    }
+    var remaining = checkSum % 11;
+    var verify = remaining == 0 ? 0 : 11 - remaining;
+    return verify == checkDigit || (verify == 10 && checkDigit == 'A');
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      firstname_en: '',
+      lastname_en: '',
+      firstname_zh: '',
+      lastname_zh: '',
+      id_number: '',
+      gender: '',
+      date_of_birth: '',
+      booking_date: '',
+      booking_time: '',
+      address: '',
+      place_of_birth: '',
+      brand_of_vaccine: '',
+      place_of_vaccine: ''
+    },
+    validationSchema: Yup.object({
+      firstname_en: Yup.string().max(99).required('Engligh First Name is a required field'),
+      lastname_en: Yup.string().max(99).required('Engligh Last Name is a required field'),
+      firstname_zh: Yup.string().max(99).required('Chinese First Name is a required field'),
+      lastname_zh: Yup.string().max(99).required('Chinese First Name is a required field'),
+      id_number: Yup.string()
+        .max(8, 'HKID must be at most 8 characters')
+        .required('HKID is a required field')
+        .matches(hkidRegex, 'Invalid HKID format')
+        .test('isValidChecksum', 'Invalid HKID checksum', (value) => isValidChecksum(value)),
+      gender: Yup.string().max(99).required('Gender is a required field'),
+      date_of_birth: Yup.string().max(99).required('Date of Birth is a required field'),
+      booking_date: Yup.string().max(99).required('Booking Date is a required field'),
+      booking_time: Yup.string().max(99).required('Booking Time is a required field'),
+      address: Yup.string().max(99).required('Address is a required field'),
+      place_of_birth: Yup.string().max(99).required('Place of Birth is a required field'),
+      brand_of_vaccine: Yup.string().max(99).required('Brand of Vaccine is a required field'),
+      place_of_vaccine: Yup.string().max(99).required('Place of Vaccine is a required field')
+    }),
+    onSubmit: async (values, { setSubmitting }) => {
+      const result = await record.createRecord(values);
+      if (result === 'Success') {
+        setSubmitting(false);
+
+        navigate('/');
+      }
+    }
+  });
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -208,27 +315,39 @@ export default function RecordCreatePage() {
             label="Booking Date"
             id="booking_date"
             name="booking_date"
-            type="date"
+            select
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.booking_date}
             error={formik.touched.booking_date && Boolean(formik.errors.booking_date)}
             helperText={formik.touched.booking_date && formik.errors.booking_date}
-          />
+          >
+            {booking_date.map((option) => (
+              <MenuItem key={option.value} value={option.value} disabled={option.status == 1}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
           <TextField
             fullWidth
             InputLabelProps={{ shrink: true }}
             margin="normal"
-            label="Bookgin Time"
+            label="Booking Time"
             id="booking_time"
             name="booking_time"
-            type="time"
+            select
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.booking_time}
             error={formik.touched.booking_time && Boolean(formik.errors.booking_time)}
             helperText={formik.touched.booking_time && formik.errors.booking_time}
-          />
+          >
+            {booking_time.map((option) => (
+              <MenuItem key={option.value} value={option.value} disabled={option.status == 1}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
           <TextField
             fullWidth
             margin="normal"
@@ -267,6 +386,25 @@ export default function RecordCreatePage() {
             helperText={formik.touched.brand_of_vaccine && formik.errors.brand_of_vaccine}
           >
             {brand_of_vaccine.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Place of Vaccine"
+            id="place_of_vaccine"
+            name="place_of_vaccine"
+            select
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.place_of_vaccine}
+            error={formik.touched.place_of_vaccine && Boolean(formik.errors.place_of_vaccine)}
+            helperText={formik.touched.place_of_vaccine && formik.errors.place_of_vaccine}
+          >
+            {place_of_vaccine.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>

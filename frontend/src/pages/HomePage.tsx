@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
-
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useEffect, useState } from 'react';
