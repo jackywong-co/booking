@@ -8,9 +8,11 @@ npm run dev
 
 admin@abc.com
 admin
+36SMPGW5VN4KO72MB4QCTG3JAGPGMQJN
 
 staff@abc.com
-staff^123A
+staff
+OYOPYX6T3NEF4OXGV6OPE47AC3QV6LSB
 
 ---
 
